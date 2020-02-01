@@ -22,7 +22,7 @@ def writeQuotes(content, langArg, cutoffArg):
             write = False
         if write and line.startswith('* ') and len(line) < (cutoffArg + 3):
             # would optimize, but since the program only needs to be run once, not really a priority
-            cleaned_line = unwiki.loads(line) + '\n'
+            cleaned_line = unwiki.loads(line, compress_spaces=True) + '\n'
             cleaned_line = multireplace(
                 cleaned_line,
                 {
@@ -32,7 +32,6 @@ def writeQuotes(content, langArg, cutoffArg):
                 })
             cleaned_line = re.sub(
                 r"<.*>|'('+)|\\\\x..|\\u....", "", cleaned_line)
-            cleaned_line = re.sub(r' +', ' ', cleaned_line)
             cleaned_line = cleaned_line[2:]
 
             if (detect(cleaned_line) == langArg and "://" not in cleaned_line):
